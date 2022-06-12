@@ -1,5 +1,6 @@
 package com.mproject.oshanchandrapala.MiniProjectBackend.service;
 
+import com.mproject.oshanchandrapala.MiniProjectBackend.model.Category;
 import com.mproject.oshanchandrapala.MiniProjectBackend.model.Product;
 import com.mproject.oshanchandrapala.MiniProjectBackend.repository.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,10 @@ public class ProductService {
         return productRepo.findAll();
     }
 
+    public List<Product> getAllByCid(String categoryId){
+        return productRepo.findAllByCategoryId(categoryId);
+    }
+
     public Product updateProduct(Product product){
         return productRepo.save(product);
     }
@@ -37,5 +42,9 @@ public class ProductService {
 
     public Optional<Product> findProductByPName(String productName){
         return productRepo.findByProductName(productName);
+    }
+
+    public Optional<Product> findProductById(String productId){
+        return productRepo.findById(productId);
     }
 }
