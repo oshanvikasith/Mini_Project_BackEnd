@@ -29,7 +29,7 @@ public class ProductController {
 
         try{
             productsByCategoryId = productService.getAllByCid(categoryId);
-            
+
         }catch (Exception e){
             e.printStackTrace();
         }
