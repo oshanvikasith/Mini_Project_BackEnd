@@ -12,7 +12,7 @@ public class User implements Serializable {
     private String userId;
     @Column(length = 50, nullable = false, updatable = false)
     private String userName;
-    @Column(nullable = false,updatable = false)
+    @Column(nullable = false)
     private String userEmail;
     @Column(nullable = false)
     private String userRole;
