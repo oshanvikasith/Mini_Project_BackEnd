@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("v1/products")
 public class ProductController {
 
     private final ProductService productService;
@@ -22,7 +22,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/all/{categoryId}")
+    @GetMapping("/list/{categoryId}")
     public ResponseEntity<List<Product>> getAllProducts(@PathVariable ("categoryId") String categoryId){
 
         List<Product> productsByCategoryId = null;
@@ -37,7 +37,7 @@ public class ProductController {
         return new ResponseEntity<>(productsByCategoryId,HttpStatus.OK);
     }
 
-    @PostMapping("/create")
+    @PostMapping("/new-product")
     public ResponseEntity<Product> createProduct(@RequestBody Product product){
 
         Product crProduct = null;
@@ -50,7 +50,7 @@ public class ProductController {
         return new ResponseEntity<>(crProduct,HttpStatus.CREATED);
     }
 
-    @PutMapping("/update/{productId}")
+    @PutMapping("/product/{productId}")
     public ResponseEntity<Product> updateProduct(@PathVariable ("productId") String productId,@RequestBody Product product ){
         Product upProduct = null;
         try{
@@ -67,7 +67,7 @@ public class ProductController {
         return new ResponseEntity<>(upProduct, HttpStatus.OK);
     }
 
-    @DeleteMapping("delete/{productId}")
+    @DeleteMapping("/product/{productId}")
     public ResponseEntity<?> deleteProduct(@PathVariable("productId") String productId){
         try{
             productService.deleteProduct(productId);
@@ -78,7 +78,7 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("find/{productName}")
+    @GetMapping("/product/{productName}")
     public ResponseEntity<Product> findProduct(@PathVariable ("productName") String productName){
         Product findProduct = null;
         try{

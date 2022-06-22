@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/product-categories")
+@RequestMapping("v1/product-categories")
 public class CategoryController {
     private final CategoryService categoryService;
 
@@ -20,7 +20,7 @@ public class CategoryController {
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
-    @GetMapping("/all")
+    @GetMapping()
     public ResponseEntity<List<Category>> getAllCategories(){
         List<Category> categories = null;
 
@@ -32,7 +32,7 @@ public class CategoryController {
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
-    @PostMapping("/create")
+    @PostMapping()
     public ResponseEntity<Category> createCategory(@RequestBody Category category){
         Category newCategory = null;
         try{
@@ -44,7 +44,7 @@ public class CategoryController {
         return new ResponseEntity<>(newCategory,HttpStatus.CREATED);
     }
 
-    @PutMapping("/update/{categoryId}")
+    @PutMapping("/category/{categoryId}")
     public ResponseEntity<Category> updateCategory(@PathVariable ("categoryId") String categoryId, @RequestBody Category category){
         Category categoryUpdate = null;
 
@@ -60,7 +60,7 @@ public class CategoryController {
         return new ResponseEntity<>(categoryUpdate, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{categoryId}")
+    @DeleteMapping("/category/{categoryId}")
     public ResponseEntity<?> deleteCategory(@PathVariable("categoryId") String categoryId){
         try{
             categoryService.deleteCategory(categoryId);
@@ -71,7 +71,7 @@ public class CategoryController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/find/{categoryId}")
+    @GetMapping("/category/{categoryId}")
     public ResponseEntity<Category> findCategory(@PathVariable ("categoryId") String categoryId){
         Category findCategory = null;
         try{

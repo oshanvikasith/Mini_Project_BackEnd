@@ -5,11 +5,13 @@ import com.mproject.oshanchandrapala.MiniProjectBackend.repository.CategoryRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class CategoryService {
     private final CategoryRepo categoryRepo;
 
@@ -38,5 +40,7 @@ public class CategoryService {
     public Optional<Category> findCategoryById(String categoryId){
         return categoryRepo.findById(categoryId);
     }
+
+
 
 }

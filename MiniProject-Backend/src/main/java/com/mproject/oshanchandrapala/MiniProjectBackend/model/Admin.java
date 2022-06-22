@@ -5,12 +5,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
 @Entity
-public class User implements Serializable {
+public class Admin implements Serializable {
 
     @Id
     @Column(length = 50,nullable = false,updatable = false)
     private String userId;
-    @Column(length = 50, nullable = false, updatable = false)
+    @Column(length = 50, nullable = false)
     private String userName;
     @Column(nullable = false)
     private String userEmail;
@@ -19,10 +19,10 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String userPassword;
 
-    public User() {
+    public Admin() {
     }
 
-    public User(String userId, String userName, String userEmail, String userRole, String userPassword) {
+    public Admin(String userId, String userName, String userEmail, String userRole, String userPassword) {
         this.userId = userId;
         this.userName = userName;
         this.userEmail = userEmail;
