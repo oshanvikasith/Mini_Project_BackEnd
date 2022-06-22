@@ -42,5 +42,8 @@ public class CategoryService {
     }
 
 
+    public Optional<Category> findCategoryByName(String categoryName){
+        return  categoryRepo.findCategoryByName(categoryName);
+    }
 
 }

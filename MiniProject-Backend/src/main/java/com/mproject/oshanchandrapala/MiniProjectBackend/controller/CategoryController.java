@@ -1,5 +1,6 @@
 package com.mproject.oshanchandrapala.MiniProjectBackend.controller;
 
+import com.mproject.oshanchandrapala.MiniProjectBackend.Utility.CategoryUtility;
 import com.mproject.oshanchandrapala.MiniProjectBackend.exception.ResourceNotFoundException;
 import com.mproject.oshanchandrapala.MiniProjectBackend.model.Category;
 import com.mproject.oshanchandrapala.MiniProjectBackend.service.CategoryService;
@@ -22,14 +23,9 @@ public class CategoryController {
     }
     @GetMapping()
     public ResponseEntity<List<Category>> getAllCategories(){
-        List<Category> categories = null;
 
-        try{
-            categories  = categoryService.getAllCategories();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return new ResponseEntity<>(categories, HttpStatus.OK);
+        CategoryUtility categoryUtility = new CategoryUtility();
+        return new ResponseEntity<>(categoryUtility.ListOfCategories(categoryService), HttpStatus.OK);
     }
 
     @PostMapping()
@@ -37,7 +33,6 @@ public class CategoryController {
         Category newCategory = null;
         try{
             newCategory = categoryService.addCategory(category);
-
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -46,18 +41,9 @@ public class CategoryController {
 
     @PutMapping("/category/{categoryId}")
     public ResponseEntity<Category> updateCategory(@PathVariable ("categoryId") String categoryId, @RequestBody Category category){
-        Category categoryUpdate = null;
 
-        try{
-            categoryUpdate = categoryService.findCategoryById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category {"+categoryId +"} does not exist"));
-            categoryUpdate.setCategoryName(category.getCategoryName());
-            categoryUpdate.setCategoryDesc(category.getCategoryDesc());
-
-            categoryService.updateCategory(categoryUpdate);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return new ResponseEntity<>(categoryUpdate, HttpStatus.OK);
+        CategoryUtility categoryUtility = new CategoryUtility();
+        return new ResponseEntity<>(categoryUtility.UpdatingCategories(categoryId,category,categoryService), HttpStatus.OK);
     }
 
     @DeleteMapping("/category/{categoryId}")
@@ -67,19 +53,20 @@ public class CategoryController {
         }catch (Exception e){
             e.printStackTrace();
         }
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/category/{categoryId}")
-    public ResponseEntity<Category> findCategory(@PathVariable ("categoryId") String categoryId){
-        Category findCategory = null;
-        try{
-            findCategory = categoryService.findCategoryById(categoryId).orElseThrow(()-> new ResourceNotFoundException("Category {"+categoryId+"} not exist"));
+    public ResponseEntity<Category> findCategoryWithId(@PathVariable ("categoryId") String categoryId){
 
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return new ResponseEntity<>(findCategory,HttpStatus.FOUND);
+        CategoryUtility categoryUtility = new CategoryUtility();
+        return new ResponseEntity<>(categoryUtility.findingCategoryUsingId(categoryId,categoryService),HttpStatus.FOUND);
     }
+
+    @GetMapping("/{categoryName}")
+    public ResponseEntity<Category> findCategoryWithName(@PathVariable ("categoryName") String categoryName){
+        CategoryUtility categoryUtility = new CategoryUtility();
+        return new ResponseEntity<>(categoryUtility.findCategoryUsingName(categoryName,categoryService),HttpStatus.FOUND);
+    }
+
 }

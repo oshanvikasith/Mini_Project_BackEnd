@@ -4,6 +4,7 @@ import com.mproject.oshanchandrapala.MiniProjectBackend.Utility.AdminUtility;
 import com.mproject.oshanchandrapala.MiniProjectBackend.exception.ResourceNotFoundException;
 import com.mproject.oshanchandrapala.MiniProjectBackend.model.Admin;
 import com.mproject.oshanchandrapala.MiniProjectBackend.service.AdminService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,11 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/v1/user")
 public class AdminController {
 
-    private final AdminUtility adminUtility;
+
     private final AdminService adminService;
 
-    public AdminController(AdminUtility adminUtility, AdminService adminService) {
-        this.adminUtility = adminUtility;
+    @Autowired
+    public AdminController(AdminService adminService) {
         this.adminService = adminService;
     }
 
@@ -29,7 +30,8 @@ public class AdminController {
     @GetMapping("/{userEmail}/{password}")
     public ResponseEntity<Admin> getUser(@PathVariable("userEmail") String userEmail, @PathVariable("password")String password){
         Admin admin = null;
-        admin=adminUtility.validateUser(userEmail,password);
+        AdminUtility adminUtility = new AdminUtility();
+        admin=adminUtility.validateUser(userEmail,password, adminService);
         return new ResponseEntity<>(admin,HttpStatus.FOUND);
     }
 }

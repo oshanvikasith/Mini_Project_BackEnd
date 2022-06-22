@@ -2,19 +2,14 @@ package com.mproject.oshanchandrapala.MiniProjectBackend.Utility;
 
 import com.mproject.oshanchandrapala.MiniProjectBackend.model.Admin;
 import com.mproject.oshanchandrapala.MiniProjectBackend.service.AdminService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 public class AdminUtility {
 
-    private final AdminService adminService;
 
-
-    public AdminUtility(AdminService adminService) {
-        this.adminService = adminService;
-    }
-
-    public Admin validateUser(String email, String password) {
+    public Admin validateUser(String email, String password, AdminService adminService) {
         List<Admin> admin = adminService.getAll();
         Admin valid = null;
         try{

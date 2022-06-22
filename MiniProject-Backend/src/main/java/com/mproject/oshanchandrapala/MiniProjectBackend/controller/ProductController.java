@@ -1,5 +1,6 @@
 package com.mproject.oshanchandrapala.MiniProjectBackend.controller;
 
+import com.mproject.oshanchandrapala.MiniProjectBackend.Utility.ProductUtility;
 import com.mproject.oshanchandrapala.MiniProjectBackend.exception.ResourceNotFoundException;
 import com.mproject.oshanchandrapala.MiniProjectBackend.model.Category;
 import com.mproject.oshanchandrapala.MiniProjectBackend.model.Product;
@@ -22,26 +23,16 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/list/{categoryId}")
+    @GetMapping("/category/{categoryId}")
     public ResponseEntity<List<Product>> getAllProducts(@PathVariable ("categoryId") String categoryId){
-
-        List<Product> productsByCategoryId = null;
-
-        try{
-            productsByCategoryId = productService.getAllByCid(categoryId);
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        return new ResponseEntity<>(productsByCategoryId,HttpStatus.OK);
+        ProductUtility productUtility = new ProductUtility();
+        return new ResponseEntity<>(productUtility.GetProducts(categoryId,productService),HttpStatus.OK);
     }
 
-    @PostMapping("/new-product")
+    @PostMapping()
     public ResponseEntity<Product> createProduct(@RequestBody Product product){
 
         Product crProduct = null;
-
         try{
             crProduct = productService.addProduct(product);
         }catch (Exception e){
@@ -50,43 +41,25 @@ public class ProductController {
         return new ResponseEntity<>(crProduct,HttpStatus.CREATED);
     }
 
-    @PutMapping("/product/{productId}")
+    @PutMapping("/{productId}")
     public ResponseEntity<Product> updateProduct(@PathVariable ("productId") String productId,@RequestBody Product product ){
-        Product upProduct = null;
-        try{
-            upProduct = productService.findProductById(productId).orElseThrow(()-> new ResourceNotFoundException("Product {"+productId +"} does not exist"));
-            upProduct.setProductName(product.getProductName());
-            upProduct.setProductDesc(product.getProductDesc());
-
-            productService.updateProduct(upProduct);
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        return new ResponseEntity<>(upProduct, HttpStatus.OK);
+        ProductUtility productUtility = new ProductUtility();
+        return new ResponseEntity<>(productUtility.updatingProduct(productId,product,productService), HttpStatus.OK);
     }
 
-    @DeleteMapping("/product/{productId}")
+    @DeleteMapping("/{productId}")
     public ResponseEntity<?> deleteProduct(@PathVariable("productId") String productId){
         try{
             productService.deleteProduct(productId);
         }catch (Exception e){
             e.printStackTrace();
         }
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/product/{productName}")
+    @GetMapping("/{productName}")
     public ResponseEntity<Product> findProduct(@PathVariable ("productName") String productName){
-        Product findProduct = null;
-        try{
-            findProduct = productService.findProductByPName(productName).orElseThrow(()-> new ResourceNotFoundException("Product {"+productName+"} does not exist"));
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return new ResponseEntity<>(findProduct,HttpStatus.FOUND);
+        ProductUtility productUtility = new ProductUtility();
+        return new ResponseEntity<>(productUtility.findingProductByName(productName,productService),HttpStatus.FOUND);
     }
 }
