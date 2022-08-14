@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("v1/products")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ProductController {
 
     private final ProductService productService;
